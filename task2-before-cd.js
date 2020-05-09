@@ -86,6 +86,7 @@ update()
             if(this.position.length <= 1 && this.position[0].y  > ball.y)
             {
             let shp=Math.floor(Math.random()*(3)) +1 ;
+            //let shp=2;
             console.log(shp);
             let rad=Math.floor((Math.random() * 40) + 60);
             
@@ -97,7 +98,7 @@ update()
                 r:rad,
                 s:shp,
                 rot:0,
-                vannam:['#3FF','#FF3','#A0F']
+                vannam:['#A0F','#3FF','#FF3']
             });
             }
 
@@ -112,6 +113,7 @@ update()
                 vannam:['#F39','#3FF','#FF3','#A0F']
             });
             }
+            score.scr++;
 
             }
          //}
@@ -174,10 +176,11 @@ function shape1(x,y,r,ang,index){
          let d2=(y+r+13)-(ball.y + 8);
          if(Math.abs(d)<=3 || Math.abs(d2)<=12)
          {
-               console.log("entered");
-               if(ball.clr == obstacle.position[index].vannam[0])
+               //console.log("entered");
+               if(!(ball.clr == obstacle.position[index].vannam[0]))
                {
-                console.log("touched");
+                //console.log("touched");
+                console.log("gameover");
                }
          }
         
@@ -186,10 +189,11 @@ function shape1(x,y,r,ang,index){
          let d4=(y-r-13)-(ball.y + 8);
          if(Math.abs(d3)<=12 || Math.abs(d4)<=3)
          {
-               console.log("entered");
-               if(ball.clr == obstacle.position[index].vannam[2])
+               //console.log("entered");
+               if(!(ball.clr == obstacle.position[index].vannam[2]))
                {
-                console.log("touched");
+                //console.log("touched");
+                console.log("gameover");
                }
          }
 }
@@ -262,10 +266,64 @@ function shape2(x,y,rad,ang,index){
             let d2=(y+ r/k1 +13)-(ball.y + 8);
             if(Math.abs(d)<=3 || Math.abs(d2)<=12)
             {
-               console.log("enteredtri");
-               if(ball.clr == obstacle.position[index].vannam[0])
+               //console.log("enteredtri");
+               if(obstacle.position[index].rot <= 120  && obstacle.position[index].rot >= 60)
                {
-                console.log("touchedtri");
+                if(!((ball.clr == obstacle.position[index].vannam[0]) || (ball.clr == obstacle.position[index].vannam[2])))
+               {
+                //console.log("touchedtri");
+                console.log("gameover");
+               }
+               }
+               else
+               {
+                if(!(ball.clr == obstacle.position[index].vannam[0]))
+               {
+                //console.log("touchedtri");
+                console.log("gameover");
+               }
+
+               }
+            }
+            
+
+
+
+
+            let k3;
+            if(obstacle.position[index].rot <= 30)
+            {
+            k3=Math.abs(2*Math.sin((obstacle.position[index].rot * Math.PI/180)));
+            }
+            else
+            {
+            k3=Math.abs(2*Math.sin((2*Math.PI/3)-(obstacle.position[index].rot * Math.PI/180)));    
+            }
+            
+
+
+            let d3=(y - r/k3 - 13)-(ball.y - 8);
+            //console.log(d);
+            let d4=(y - r/k3 - 13)-(ball.y + 8);
+            if(Math.abs(d3)<=12 || Math.abs(d4)<=3)
+            {
+               //console.log("enteredtri");
+               
+               if(obstacle.position[index].rot <= 120  && obstacle.position[index].rot >= 90)
+               {
+                if(!((ball.clr == obstacle.position[index].vannam[1]) || (ball.clr == obstacle.position[index].vannam[2])))
+               {
+                //console.log("touchedtri");
+                console.log("gameover");
+               }
+               }
+               else
+               {
+                if(!(ball.clr == obstacle.position[index].vannam[1]))
+               {
+                //console.log("touchedtri");
+                console.log("gameover");
+               }
                }
             }
 
@@ -334,53 +392,28 @@ function shape3(x,y,rad,ang,index){
          let d2=(y+ r/k2 +13)-(ball.y + 8);
          if(Math.abs(d)<=7 || Math.abs(d2)<=14)
          {
-               console.log("enteredsq");
-               if(ball.clr == obstacle.position[index].vannam[0])
+               //console.log("enteredsq");
+               if(!(ball.clr == obstacle.position[index].vannam[0]))
                {
-                console.log("touchedsq");
+                //console.log("touchedsq");
+                console.log("gameover");
                }
          }
 
-            
+         let d3=(y- r/k2 -13)-(ball.y - 8);
+         //console.log(d);
+         let d4=(y- r/k2 -13)-(ball.y + 8);
+
+          if(Math.abs(d3)<=14 || Math.abs(d4)<=7)
+         {
+               //console.log("enteredsq");
+               if(!(ball.clr == obstacle.position[index].vannam[2]))
+               {
+                //console.log("touchedsq");
+                console.log("gameover");
+               }
+         }  
 }
-
-function touching(x,y,r,g,b)
-{
-
-        var imgdata = ctx.getImageData(ball.x,ball.y,1,1);
-        //console.log(imgdata.data);
-        //console.log(imgdata);
-        for(var i=0;i<imgdata.data.length;i+=4){
-            if(!((imgdata.data[i+0]==0 && imgdata.data[i+1]==0 && imgdata.data[i+2]==0) || (imgdata.data[i+0]==r && imgdata.data[i+1]==g && imgdata.data[i+2]==b)))
-            {
-                console.log("touched");
-                return 0;
-            }
-            
-        }
-
-        /*for(var i=0;i<imgdata.data.length;i+=4){
-            if((imgdata.data[i+0]==255 && imgdata.data[i+1]==51 && imgdata.data[i+2]==153) || (imgdata.data[i+0]==51 && imgdata.data[i+1]==255 && imgdata.data[i+2]==255) || (imgdata.data[i+0]==255 && imgdata.data[i+1]==255 && imgdata.data[i+2]==51))
-            {
-                console.log("touched");
-                return 0;
-            }
-            
-        }*/
-
-        /*for(var i=0;i<imgdata.data.length;i+=4){
-            if(
-                imgdata.data[i+0]==r &&
-                imgdata.data[i+1]==g &&
-                imgdata.data[i+2]==b
-            ){
-                return 1;
-            }
-        }*/
-        //console.log("hi");
-        //return 0;
-}
-
 
 
 const state = {
@@ -436,7 +469,7 @@ const ball = {
     x: WIDTH/2,
     y: 2.8*(HEIGHT/4),
     gravity : 0.1,
-    rd:8,
+    rd:12,
     jump : 2.6,
     clr:"#A0F",     /////////// rgb is (170,0,255)
     speed : 0,
@@ -483,14 +516,48 @@ update()
     }
     
     let y_cord=this.y;
-    let t=touching((WIDTH/2),y_cord,170,0,255);
+    /*let t=touching((WIDTH/2),y_cord,170,0,255);
     {
         if(t==0)
         {
             state.current=2;
         }
-    }
+    }*/
 },
+}
+
+const score =
+{
+    scr:0,
+    best:0,
+
+    draw()
+    {
+        if(state.current==1)
+        {
+            /*ctx.beginPath();
+            ctx.font = "40px Arial";
+            ctx.lineWidth=2;
+            //ctx.textAlign = "center";
+            ctx.strokeStyle="#ff0000";
+            //ctx.fillText(this.scr,30,50);
+            ctx.strokeText("score",100,200);
+            ctx.closePath();*/
+            ctx.beginPath();
+            ctx.lineWidth = 1.5;
+            ctx.font = "40px Teko";
+            ctx.fillText("score", 80, 50);
+            ctx.strokeText("score", 80, 50);
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.lineWidth = 1.5;
+            ctx.font = "30px Teko";
+            ctx.fillText(this.scr, 80, 80);
+            ctx.strokeText(this.scr, 80, 80);
+            ctx.closePath();
+        }
+    }
 }
 
 
@@ -500,6 +567,7 @@ function draw()
    getReady.draw();
    end.draw();
    obstacle.draw();
+   score.draw();
 }
 
 function update()
